@@ -1,0 +1,25 @@
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('Index');
+}
+
+function submitForm(formData) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = sheet.getDataRange().getValues();
+  const ipExists = data.some(row => row[5] === formData.ip_address);
+
+  if (ipExists) {
+    return "You have already submitted your information.";
+  }
+
+    sheet.appendRow([
+    formData.name,
+    formData.email,
+    formData.studentId,
+    formData.latitude,
+    formData.longitude,
+    formData.ip_address,
+    formData.timestamp
+  ]);
+
+  return "Your information has been submitted successfully!";
+}
